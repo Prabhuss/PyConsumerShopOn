@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.DataService;
 using PyConsumerApp.Models.History;
 using PyConsumerApp.ViewModels.History;
 using System;
@@ -18,6 +19,14 @@ namespace PyConsumerApp.Views.History
         public MyOrdersPage()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             var myOrdersDataService = MyOrdersDataService.Instance;
             viewModels = new MyOrdersPageViewModel(myOrdersDataService);
             BindingContext = viewModels;

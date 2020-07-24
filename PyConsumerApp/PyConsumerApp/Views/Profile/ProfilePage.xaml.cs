@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.ViewModels.Profile;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.ViewModels.Profile;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,14 @@ namespace PyConsumerApp.Views.Profile
         public ProfilePage()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             viewModel = new ProfileViewModel();
             //viewModel.Profile = ProfileDataService.Instance.ProfileViewModel.Profile;
             this.BindingContext = viewModel;

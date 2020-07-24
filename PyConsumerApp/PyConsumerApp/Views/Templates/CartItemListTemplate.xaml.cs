@@ -1,10 +1,12 @@
-﻿using Xamarin.Forms;
+﻿using Plugin.Connectivity;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace PyConsumerApp.Views.Templates
 {
-    /// <summary>
+    /// <summary> 
+           
     /// Cart item list template.
     /// </summary>
     [Preserve(AllMembers = true)]
@@ -65,6 +67,14 @@ namespace PyConsumerApp.Views.Templates
 		public CartItemListTemplate()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.DataService;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -12,7 +13,14 @@ namespace PyConsumerApp.Views.Navigation
         public PhotosPage()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
 
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             this.BindingContext = PhotosDataService.Instance.PhotosViewModel;
         }
     }

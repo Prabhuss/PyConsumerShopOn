@@ -12,6 +12,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System.Collections.Generic;
+using Plugin.Connectivity;
 
 namespace PyConsumerApp
 {
@@ -181,7 +182,14 @@ namespace PyConsumerApp
 
         protected override void OnStart()
         {
+            if (CrossConnectivity.Current.IsConnected)
+            {
 
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             AppCenter.Start("android=fea975bc-6fe5-4c13-912a-88aaefdc38a2;" +
                   "uwp={Your UWP App secret here};" +
                   "ios={Your iOS App secret here}",

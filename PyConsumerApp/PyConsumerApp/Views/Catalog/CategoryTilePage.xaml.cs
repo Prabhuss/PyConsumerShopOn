@@ -10,6 +10,7 @@ using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using PyConsumerApp.DataService;
 using System;
+using Plugin.Connectivity;
 
 namespace PyConsumerApp.Views.Catalog
 {
@@ -30,6 +31,14 @@ namespace PyConsumerApp.Views.Catalog
         public CategoryTilePage()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             //vm = new CategoryPageViewModel();
             vm = new SubCategoryPageViewModel();
             this.BindingContext = vm;

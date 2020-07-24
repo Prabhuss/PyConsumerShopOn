@@ -1,4 +1,5 @@
 ﻿
+using Plugin.Connectivity;
 using Syncfusion.XForms.Buttons;
 using System;
 using Xamarin.Forms.Internals;
@@ -13,6 +14,14 @@ namespace PyConsumerApp.Views.Transaction
         public PaymentView()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
         }
 
         private void PWC_StateChanged(object sender, StateChangedEventArgs e)

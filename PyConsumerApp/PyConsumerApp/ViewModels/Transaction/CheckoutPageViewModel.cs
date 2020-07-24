@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Transaction;
@@ -451,6 +452,15 @@ namespace PyConsumerApp.ViewModels.Transaction
 
         public async void FetchAddresses()
         {
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+               await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             DeliveryAddress.Clear();
             try
             {
@@ -615,6 +625,16 @@ namespace PyConsumerApp.ViewModels.Transaction
 
         private async void PlaceOrderClicked(object obj)
         {
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+               await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
+
             IsBusy = true;
             if (!ButtonActive)
                 return;

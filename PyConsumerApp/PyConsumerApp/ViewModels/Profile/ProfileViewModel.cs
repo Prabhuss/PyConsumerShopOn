@@ -1,4 +1,5 @@
 ﻿using Microsoft.AppCenter.Analytics;
+using Plugin.Connectivity;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Forms;
@@ -71,6 +72,15 @@ namespace PyConsumerApp.ViewModels.Profile
 
         private async void ChangeInfo_Clicked(object obj)
         {
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             Analytics.TrackEvent("ModifyUserInfo_Clicked", new Dictionary<string, string> {
                             { "MerchantBranchId", app.Merchantid},
                             { "UserPhoneNumber", app.UserPhoneNumber},

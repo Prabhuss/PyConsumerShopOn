@@ -474,6 +474,17 @@
           "lib/xamarinios10/_._": {}
         }
       },
+      "Xam.Plugin.Connectivity/3.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        },
+        "runtime": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        }
+      },
       "Xam.Plugin.Geolocator/4.5.0.6": {
         "type": "package",
         "dependencies": {
@@ -712,6 +723,7 @@
           "Syncfusion.Xamarin.SfTabView": "18.1.0.44",
           "System.Text.Json": "4.7.2",
           "XLabs.Forms": "2.0.5782",
+          "Xam.Plugin.Connectivity": "3.2.0",
           "Xam.Plugin.Geolocator": "4.5.0.6",
           "Xamarin.Essentials": "1.5.2",
           "Xamarin.Forms": "4.5.0.617"
@@ -1175,6 +1187,17 @@
           "lib/xamarinios10/_._": {}
         }
       },
+      "Xam.Plugin.Connectivity/3.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        },
+        "runtime": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        }
+      },
       "Xam.Plugin.Geolocator/4.5.0.6": {
         "type": "package",
         "dependencies": {
@@ -1413,6 +1436,7 @@
           "Syncfusion.Xamarin.SfTabView": "18.1.0.44",
           "System.Text.Json": "4.7.2",
           "XLabs.Forms": "2.0.5782",
+          "Xam.Plugin.Connectivity": "3.2.0",
           "Xam.Plugin.Geolocator": "4.5.0.6",
           "Xamarin.Essentials": "1.5.2",
           "Xamarin.Forms": "4.5.0.617"
@@ -1879,6 +1903,17 @@
           "lib/xamarinios10/_._": {}
         }
       },
+      "Xam.Plugin.Connectivity/3.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        },
+        "runtime": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        }
+      },
       "Xam.Plugin.Geolocator/4.5.0.6": {
         "type": "package",
         "dependencies": {
@@ -2117,6 +2152,7 @@
           "Syncfusion.Xamarin.SfTabView": "18.1.0.44",
           "System.Text.Json": "4.7.2",
           "XLabs.Forms": "2.0.5782",
+          "Xam.Plugin.Connectivity": "3.2.0",
           "Xam.Plugin.Geolocator": "4.5.0.6",
           "Xamarin.Essentials": "1.5.2",
           "Xamarin.Forms": "4.5.0.617"
@@ -2583,6 +2619,17 @@
           "lib/xamarinios10/_._": {}
         }
       },
+      "Xam.Plugin.Connectivity/3.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        },
+        "runtime": {
+          "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll": {},
+          "lib/Xamarin.iOS10/Plugin.Connectivity.dll": {}
+        }
+      },
       "Xam.Plugin.Geolocator/4.5.0.6": {
         "type": "package",
         "dependencies": {
@@ -2821,6 +2868,7 @@
           "Syncfusion.Xamarin.SfTabView": "18.1.0.44",
           "System.Text.Json": "4.7.2",
           "XLabs.Forms": "2.0.5782",
+          "Xam.Plugin.Connectivity": "3.2.0",
           "Xam.Plugin.Geolocator": "4.5.0.6",
           "Xamarin.Essentials": "1.5.2",
           "Xamarin.Forms": "4.5.0.617"
@@ -3846,6 +3894,75 @@
         "version.txt"
       ]
     },
+    "Xam.Plugin.Connectivity/3.2.0": {
+      "sha512": "ZV45TaBTCJg7XQNEl3fPyyJcuMMhdDEQ6BCLc/5pMuTv38M226ER0WTu5sbmba8jlliDuzeRqkRFHwrGdWAgyg==",
+      "type": "package",
+      "path": "xam.plugin.connectivity/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid10/Plugin.Connectivity.Abstractions.dll",
+        "lib/MonoAndroid10/Plugin.Connectivity.Abstractions.pdb",
+        "lib/MonoAndroid10/Plugin.Connectivity.Abstractions.xml",
+        "lib/MonoAndroid10/Plugin.Connectivity.dll",
+        "lib/MonoAndroid10/Plugin.Connectivity.dll.mdb",
+        "lib/MonoAndroid10/Plugin.Connectivity.pdb",
+        "lib/MonoAndroid10/Plugin.Connectivity.xml",
+        "lib/UAP10/Plugin.Connectivity.Abstractions.dll",
+        "lib/UAP10/Plugin.Connectivity.Abstractions.pdb",
+        "lib/UAP10/Plugin.Connectivity.Abstractions.xml",
+        "lib/UAP10/Plugin.Connectivity.XML",
+        "lib/UAP10/Plugin.Connectivity.dll",
+        "lib/UAP10/Plugin.Connectivity.pdb",
+        "lib/UAP10/Plugin.Connectivity.pri",
+        "lib/UAP10/Plugin.Connectivity/Properties/Plugin.Connectivity.rd.xml",
+        "lib/Xamarin.Mac20/Plugin.Connectivity.Abstractions.dll",
+        "lib/Xamarin.Mac20/Plugin.Connectivity.Abstractions.pdb",
+        "lib/Xamarin.Mac20/Plugin.Connectivity.Abstractions.xml",
+        "lib/Xamarin.Mac20/Plugin.Connectivity.dll",
+        "lib/Xamarin.Mac20/Plugin.Connectivity.pdb",
+        "lib/Xamarin.Mac20/Plugin.Connectivity.xml",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.pdb",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.xml",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.dll",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.dll.mdb",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.pdb",
+        "lib/Xamarin.iOS10/Plugin.Connectivity.xml",
+        "lib/XamarinTVOS/Plugin.Connectivity.Abstractions.dll",
+        "lib/XamarinTVOS/Plugin.Connectivity.Abstractions.pdb",
+        "lib/XamarinTVOS/Plugin.Connectivity.Abstractions.xml",
+        "lib/XamarinTVOS/Plugin.Connectivity.dll",
+        "lib/XamarinTVOS/Plugin.Connectivity.pdb",
+        "lib/XamarinTVOS/Plugin.Connectivity.xml",
+        "lib/net45/Plugin.Connectivity.Abstractions.dll",
+        "lib/net45/Plugin.Connectivity.Abstractions.pdb",
+        "lib/net45/Plugin.Connectivity.Abstractions.xml",
+        "lib/net45/Plugin.Connectivity.XML",
+        "lib/net45/Plugin.Connectivity.dll",
+        "lib/net45/Plugin.Connectivity.pdb",
+        "lib/netcoreapp2.0/Plugin.Connectivity.Abstractions.dll",
+        "lib/netcoreapp2.0/Plugin.Connectivity.Abstractions.pdb",
+        "lib/netcoreapp2.0/Plugin.Connectivity.Abstractions.xml",
+        "lib/netcoreapp2.0/Plugin.Connectivity.deps.json",
+        "lib/netcoreapp2.0/Plugin.Connectivity.dll",
+        "lib/netcoreapp2.0/Plugin.Connectivity.xml",
+        "lib/netstandard1.0/Plugin.Connectivity.Abstractions.dll",
+        "lib/netstandard1.0/Plugin.Connectivity.Abstractions.pdb",
+        "lib/netstandard1.0/Plugin.Connectivity.Abstractions.xml",
+        "lib/netstandard1.0/Plugin.Connectivity.deps.json",
+        "lib/netstandard1.0/Plugin.Connectivity.dll",
+        "lib/netstandard1.0/Plugin.Connectivity.pdb",
+        "lib/netstandard1.0/Plugin.Connectivity.xml",
+        "lib/tizen40/Plugin.Connectivity.Abstractions.dll",
+        "lib/tizen40/Plugin.Connectivity.Abstractions.pdb",
+        "lib/tizen40/Plugin.Connectivity.Abstractions.xml",
+        "lib/tizen40/Plugin.Connectivity.deps.json",
+        "lib/tizen40/Plugin.Connectivity.dll",
+        "xam.plugin.connectivity.3.2.0.nupkg.sha512",
+        "xam.plugin.connectivity.nuspec"
+      ]
+    },
     "Xam.Plugin.Geolocator/4.5.0.6": {
       "sha512": "Ro7peBDxsDXPc7J7yLx0ekAcXIfVTAXj/rXiBKiTgZ4Lm7KZJIU8PXOCcI4JztzT3MQrL8Rmka48il/ix0pwoA==",
       "type": "package",
@@ -4316,30 +4433,31 @@
       "Syncfusion.Xamarin.SfRating >= 18.1.0.43",
       "Syncfusion.Xamarin.SfRotator >= 17.3.0.34",
       "Syncfusion.Xamarin.SfTabView >= 18.1.0.44",
+      "Xam.Plugin.Connectivity >= 3.2.0",
       "Xam.Plugin.Geolocator >= 4.5.0.6",
       "Xamarin.Essentials >= 1.3.1",
       "Xamarin.Forms >= 4.4.0.991265"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\getpy\\.nuget\\packages\\": {},
+    "C:\\Users\\diksha\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
       "projectName": "PyConsumerApp.iOS",
-      "projectPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
-      "packagesPath": "C:\\Users\\getpy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\obj\\",
+      "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
+      "packagesPath": "C:\\Users\\diksha\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\getpy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\diksha\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -4353,8 +4471,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
-              "projectPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj"
+            "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
+              "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj"
             }
           }
         }
@@ -4422,6 +4540,10 @@
           "Syncfusion.Xamarin.SfTabView": {
             "target": "Package",
             "version": "[18.1.0.44, )"
+          },
+          "Xam.Plugin.Connectivity": {
+            "target": "Package",
+            "version": "[3.2.0, )"
           },
           "Xam.Plugin.Geolocator": {
             "target": "Package",

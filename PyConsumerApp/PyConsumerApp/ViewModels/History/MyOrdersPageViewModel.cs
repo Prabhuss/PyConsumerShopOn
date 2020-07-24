@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.DataService;
 using PyConsumerApp.Models.History;
 using System;
 using System.Collections.ObjectModel;
@@ -37,6 +38,15 @@ namespace PyConsumerApp.ViewModels.History
         public MyOrdersPageViewModel(MyOrdersDataService myOrdersDataService)
         {
             this.orderDataService = myOrdersDataService;
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             OrderDetails = new ObservableCollection<CustomerInvoiceDatum>();
             RequestedOrders = new ObservableCollection<CustomerInvoiceDatum>();
             CancelOrders = new ObservableCollection<CustomerInvoiceDatum>();

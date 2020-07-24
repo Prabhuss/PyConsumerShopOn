@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Plugin.Connectivity;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
@@ -20,6 +21,14 @@ namespace PyConsumerApp.Views.Templates
         public SearchItemListTemplate()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
         }
 
         private void numericUpDown_ValueChanged(object sender, Syncfusion.SfNumericUpDown.XForms.ValueEventArgs e)

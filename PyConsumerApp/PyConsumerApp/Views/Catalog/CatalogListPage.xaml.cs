@@ -1,3 +1,4 @@
+using Plugin.Connectivity;
 using PyConsumerApp.Models;
 using PyConsumerApp.ViewModels.Catalog;
 using Syncfusion.GridCommon.ScrollAxis;
@@ -23,6 +24,14 @@ namespace PyConsumerApp.Views.Catalog
         public CatalogListPage(SubCategory category)
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             vm = new CatalogPageViewModel(category);
             BindingContext = vm;
 

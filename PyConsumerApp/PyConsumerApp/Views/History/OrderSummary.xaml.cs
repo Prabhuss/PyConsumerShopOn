@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.Models.History;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Models.History;
 using PyConsumerApp.ViewModels.History;
 using System.Collections.ObjectModel;
 
@@ -18,6 +19,14 @@ namespace PyConsumerApp.Views.History
         public OrderSummary(CustomerInvoiceDatum InvoiceDetails, ObservableCollection<InvocieLineItem> LineitemFromCloud)
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             BindingContext = viewModel = new OrderSummaryViewModel(InvoiceDetails, LineitemFromCloud);
         }
     }

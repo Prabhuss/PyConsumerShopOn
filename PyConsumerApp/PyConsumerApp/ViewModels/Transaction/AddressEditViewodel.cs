@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -85,7 +86,17 @@ namespace PyConsumerApp.ViewModels.Transaction
 
         private async void UseMyLocation_Clicked(object obj)
         {
-            if(CustomerAddress.FirstName== null || CustomerAddress.Address2 == null || CustomerAddress.TagName == null)
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
+
+            if (CustomerAddress.FirstName== null || CustomerAddress.Address2 == null || CustomerAddress.TagName == null)
             {
                 await Application.Current.MainPage.DisplayAlert("To use location", "Please fill all the above fields", "Ok");
                 return;

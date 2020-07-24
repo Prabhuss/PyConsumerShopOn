@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.Events;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Events;
 using PyConsumerApp.ViewModels.Forms;
 using System.Linq;
 using Xamarin.Forms;
@@ -13,7 +14,15 @@ namespace PyConsumerApp.Views.Forms
         OTPViewModel vModel;
         public OTPView()
         {
-            InitializeComponent();          
+            InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             vModel = new OTPViewModel(Navigation);
             BindingContext = vModel;
             //GlobalEvents.OnSMSReceived += GlobalEvents_OnSMSReceived;

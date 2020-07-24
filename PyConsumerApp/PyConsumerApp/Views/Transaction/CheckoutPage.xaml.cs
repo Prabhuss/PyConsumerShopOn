@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.DataService;
 using PyConsumerApp.ViewModels.Transaction;
 using Syncfusion.XForms.Buttons;
 using System;
@@ -16,6 +17,14 @@ namespace PyConsumerApp.Views.Transaction
         public CheckoutPage()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             var userDataService = ProfileDataService.Instance;
             var cartDataService = CartDataService.Instance;
             var catalogDataService = CatalogDataService.Instance;

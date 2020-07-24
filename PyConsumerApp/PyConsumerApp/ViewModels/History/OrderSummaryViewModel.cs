@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.Models.History;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Models.History;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
@@ -11,6 +12,7 @@ namespace PyConsumerApp.ViewModels.History
     [DataContract]
     public class OrderSummaryViewModel
     {
+
         [DataMember(Name = "LineItemList")]
         public ObservableCollection<InvocieLineItem> LineItemList { get; set; }
         [DataMember(Name = "TotalItems")]
@@ -21,6 +23,15 @@ namespace PyConsumerApp.ViewModels.History
         public string productImageUrl;
         public OrderSummaryViewModel(CustomerInvoiceDatum InvoiceDetails, ObservableCollection<InvocieLineItem> LineitemFromCloud)
         {
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             TotalAmount = InvoiceDetails.PayableAmount.ToString();
             TotalMRP = InvoiceDetails.TotalInvoiceAmount.ToString();
             Discount = InvoiceDetails.DiscountAmount.ToString();

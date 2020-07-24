@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj": {}
+    "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj": {
+    "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
+        "projectUniqueName": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
         "projectName": "PyConsumerApp.iOS",
-        "projectPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
-        "packagesPath": "C:\\Users\\getpy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.iOS\\obj\\",
+        "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
+        "packagesPath": "C:\\Users\\diksha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\getpy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diksha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -32,8 +32,8 @@
         "frameworks": {
           "xamarinios10": {
             "projectReferences": {
-              "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
-                "projectPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj"
+              "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
+                "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj"
               }
             }
           }
@@ -102,6 +102,10 @@
               "target": "Package",
               "version": "[18.1.0.44, )"
             },
+            "Xam.Plugin.Connectivity": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
             "Xam.Plugin.Geolocator": {
               "target": "Package",
               "version": "[4.5.0.6, )"
@@ -129,20 +133,20 @@
         }
       }
     },
-    "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
+    "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj",
+        "projectUniqueName": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj",
         "projectName": "PyConsumerApp",
-        "projectPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj",
-        "packagesPath": "C:\\Users\\getpy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\getpy\\source\\repos\\samar_pymobileconsumerapp\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp\\obj\\",
+        "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj",
+        "packagesPath": "C:\\Users\\diksha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\getpy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diksha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -269,6 +273,10 @@
               "target": "Package",
               "version": "[2.0.5782, )"
             },
+            "Xam.Plugin.Connectivity": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
             "Xam.Plugin.Geolocator": {
               "target": "Package",
               "version": "[4.5.0.6, )"
@@ -292,7 +300,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.Models;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Models;
 using PyConsumerApp.ViewModels.Catalog;
 using System.Collections.ObjectModel;
 using Xamarin.Forms.Internals;
@@ -14,6 +15,14 @@ namespace PyConsumerApp.Views.Catalog
         public SubCategoryPage(ObservableCollection<SubCategory> category)
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             vm = new SubCategoryPageViewModel();
             vm.Categories = category;
             this.BindingContext = vm;

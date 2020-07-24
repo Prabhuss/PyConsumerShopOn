@@ -1,4 +1,5 @@
 ﻿using Microsoft.AppCenter.Analytics;
+using Plugin.Connectivity;
 using PyConsumerApp.Models;
 using PyConsumerApp.ViewModels.Detail;
 using System;
@@ -21,6 +22,14 @@ namespace PyConsumerApp.Views.Detail
             {
                 var app = App.Current as App;
                 InitializeComponent();
+                if (CrossConnectivity.Current.IsConnected)
+                {
+
+                }
+                else
+                {
+                    App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+                }
                 BindingContext = new DetailPageViewModel(selectedProduct);
                 Analytics.TrackEvent("Product_Clicked", new Dictionary<string, string> {
                             { "MerchantBranchId", app.Merchantid},

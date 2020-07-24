@@ -1,4 +1,5 @@
-﻿using Plugin.Permissions;
+﻿using Plugin.Connectivity;
+using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using PyConsumerApp.ViewModels.Forms;
 using System.Threading.Tasks;
@@ -22,6 +23,14 @@ namespace PyConsumerApp.Views.Forms
         public LoginPage()
         {
             InitializeComponent();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             LoginPageViewModel vm = new LoginPageViewModel(Navigation);
             vm.Initailize(this);
             BindingContext = vm;

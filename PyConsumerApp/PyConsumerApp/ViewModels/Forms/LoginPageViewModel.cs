@@ -1,4 +1,5 @@
 ﻿using Microsoft.AppCenter.Analytics;
+using Plugin.Connectivity;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Views.Forms;
 using PyConsumerApp.Views.Navigation;
@@ -32,6 +33,14 @@ namespace PyConsumerApp.ViewModels.Forms
         /// </summary>
         public LoginPageViewModel(INavigation _navigation)
         {
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             this.LoginCommand = new Command(this.LoginClicked);
             this.SignUpCommand = new Command(this.SignUpClicked);
             this.SkipCommand = new Command(this.SkipClicked);

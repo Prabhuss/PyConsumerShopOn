@@ -12,8 +12,8 @@ namespace PyConsumerApp.ViewModels.Forms
     [Preserve(AllMembers = true)]
     public class OTPViewModel : BaseViewModel
     {
-        #region Fields
-        private string otp;
+#region Fields
+private string otp;
         private string otpCaption;
         private bool isInvalidOtp = false;
         private INavigation navigation;

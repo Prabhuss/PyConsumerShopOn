@@ -1,4 +1,5 @@
-﻿using PyConsumerApp.Views.Navigation;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Views.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -40,6 +41,15 @@ namespace PyConsumerApp.ViewModels.Transaction
         /// </summary>
         private void ContinueShoppingClicked(object obj)
         {
+
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
+            }
             Application.Current.MainPage = new NavigationPage(new BottomNavigationPage());
             BaseViewModel.Navigation = Application.Current.MainPage.Navigation;
         }
