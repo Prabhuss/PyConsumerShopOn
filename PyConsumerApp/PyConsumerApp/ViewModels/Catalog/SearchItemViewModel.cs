@@ -1,4 +1,6 @@
 ﻿using Microsoft.AppCenter.Analytics;
+using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Bookmarks;
@@ -189,89 +191,107 @@ namespace PyConsumerApp.ViewModels.Catalog
         
         private async void SearchClicked(string str)
         {
-            try
+            IsBusy = true;
+            if (CrossConnectivity.Current.IsConnected)
             {
-                Analytics.TrackEvent("Search_Clicked", new Dictionary<string, string> {
+                try
+                {
+                    Analytics.TrackEvent("Search_Clicked", new Dictionary<string, string> {
                             { "MerchantBranchId", app.Merchantid},
                             { "UserPhoneNumber", app.UserPhoneNumber},
                             { "SearchItem", SearchText.Trim()},
                             });
-                if (Products.Count > 0)
-                {
-                    Products.Clear();
-                }
-                int pageno = 1;
-                ObservableCollection<SearchProduct> productlist = await CategoryDataService.Instance.SearchItems(pageno, SearchText.Trim());
-                if (productlist.Count != 0)
-                {
-                    foreach (var item in productlist)
+                    if (Products.Count > 0)
                     {
-                        if (products != null)
+                        Products.Clear();
+                    }
+                    int pageno = 1;
+                    ObservableCollection<SearchProduct> productlist = await CategoryDataService.Instance.SearchItems(pageno, SearchText.Trim());
+                    if (productlist.Count != 0)
+                    {
+                        foreach (var item in productlist)
                         {
-                            var isProductAlreadyAdded = products.Any(s => s.CitrineProdId == item.CitrineProdId);
-                            if (!isProductAlreadyAdded)
+                            if (products != null)
+                            {
+                                var isProductAlreadyAdded = products.Any(s => s.CitrineProdId == item.CitrineProdId);
+                                if (!isProductAlreadyAdded)
+                                {
+                                    Products.Add(item);
+                                }
+                            }
+                            else
                             {
                                 Products.Add(item);
                             }
-                        }
-                        else
-                        {
-                            Products.Add(item);
-                        }
 
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    DependencyService.Get<IToastMessage>().LongTime("Something went wrong. Please try again.");
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
+                IsBusy = false;
             }
-           
+
         }
         /* 
          * Load data on scrolling 
          */
         private async void LoadData()
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                IsLoading = true;
-                int pageno = 0;
-                if (products.Count > 0)
+                try
                 {
-                    pageno = (products.Count / 10) + 1;
-                }
-                else
-                {
-                    pageno = 1;
-                }
-                ObservableCollection<SearchProduct> productlist = await CategoryDataService.Instance.SearchItems(pageno, SearchText.Trim());
-                if (productlist.Count != 0)
-                {
-                    foreach (var item in productlist)
+                    IsLoading = true;
+                    int pageno = 0;
+                    if (products.Count > 0)
                     {
-                        if (products != null)
+                        pageno = (products.Count / 10) + 1;
+                    }
+                    else
+                    {
+                        pageno = 1;
+                    }
+                    ObservableCollection<SearchProduct> productlist = await CategoryDataService.Instance.SearchItems(pageno, SearchText.Trim());
+                    if (productlist.Count != 0)
+                    {
+                        foreach (var item in productlist)
                         {
-                            var isProductAlreadyAdded = products.Any(s => s.CitrineProdId == item.CitrineProdId);
-                            if (!isProductAlreadyAdded)
+                            if (products != null)
+                            {
+                                var isProductAlreadyAdded = products.Any(s => s.CitrineProdId == item.CitrineProdId);
+                                if (!isProductAlreadyAdded)
+                                {
+                                    Products.Add(item);
+                                }
+                            }
+                            else
                             {
                                 Products.Add(item);
                             }
-                        }
-                        else
-                        {
-                            Products.Add(item);
-                        }
 
+                        }
                     }
                 }
-            }
-            catch (Exception e)
-            {
+                catch (Exception e)
+                {
 
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
             }
-            finally
+            else
             {
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
                 IsLoading = false;
             }
         }

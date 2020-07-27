@@ -4440,24 +4440,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\diksha\\.nuget\\packages\\": {},
+    "C:\\Users\\getpy\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\getpy\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
       "projectName": "PyConsumerApp.iOS",
-      "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
-      "packagesPath": "C:\\Users\\diksha\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\obj\\",
+      "projectPath": "C:\\Users\\getpy\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\PyConsumerApp.iOS.csproj",
+      "packagesPath": "C:\\Users\\getpy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\getpy\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\diksha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\getpy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -4471,8 +4471,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
-              "projectPath": "C:\\Users\\diksha\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj"
+            "C:\\Users\\getpy\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj": {
+              "projectPath": "C:\\Users\\getpy\\source\\repos\\PyConsumerShopOn\\PyConsumerApp\\PyConsumerApp\\PyConsumerApp.csproj"
             }
           }
         }

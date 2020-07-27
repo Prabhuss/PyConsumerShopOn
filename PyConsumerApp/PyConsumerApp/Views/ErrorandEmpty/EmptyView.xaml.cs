@@ -19,14 +19,6 @@ namespace PyConsumerApp.Views.ErrorAndEmpty
         public EmptyView(bool IsCartPage, string headerText, string contentText, string imagepath = "EmptyCart.svg")
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             BindingContext = new EmptyCartPageViewModel(IsCartPage, headerText, contentText, imagepath);
         }
 

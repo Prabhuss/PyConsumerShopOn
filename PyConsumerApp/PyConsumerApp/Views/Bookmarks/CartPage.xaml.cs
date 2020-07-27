@@ -20,14 +20,6 @@ namespace PyConsumerApp.Views.Bookmarks
         public CartPage()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             var cartSercice = CartDataService.Instance;
             BindingContext = new CartPageViewModel(cartSercice);
         }

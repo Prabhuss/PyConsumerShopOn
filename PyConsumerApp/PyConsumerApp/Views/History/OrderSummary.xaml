@@ -75,12 +75,12 @@
 
             <Grid
             BackgroundColor="{DynamicResource Gray-White}"
-            RowSpacing="4"
             VerticalOptions="Start">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -114,14 +114,14 @@
                 <!--  Total Items  -->
                 <Label
                     Grid.Row="2"
-                    Margin="16,4,16,0"
+                    Margin="16,3,16,0"
                     FontFamily="{StaticResource Montserrat-Medium}"
                     Style="{StaticResource PriceLabelStyle}"
                     Text="Total Items" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="1"
-                    Margin="16,4,16,0"
+                    Margin="16,3,16,0"
                     FontFamily="{StaticResource Montserrat-Medium}"
                     HorizontalOptions="EndAndExpand"
                     HorizontalTextAlignment="End"
@@ -130,14 +130,14 @@
                 <!--  Total MRP  -->
                 <Label
                 Grid.Row="3"
-                Margin="16,4,16,0"
+                Margin="16,3,16,0"
                 FontFamily="{StaticResource Montserrat-Medium}"
                 Style="{StaticResource PriceLabelStyle}"
                 Text="Total MRP" />
                 <Label
                 Grid.Row="3"
                 Grid.Column="1"
-                Margin="16,4,16,0"
+                Margin="16,3,16,0"
                 FontFamily="{StaticResource Montserrat-Medium}"
                 HorizontalOptions="EndAndExpand"
                 HorizontalTextAlignment="End"
@@ -146,6 +146,7 @@
                 <!--  Discount Percent  -->
                 <Label
                 Grid.Row="4"
+                Margin="16,3,16,0"
                 FontFamily="{DynamicResource Montserrat-Medium}"
                 FontSize="12"
                 Style="{StaticResource PriceLabelStyle}"
@@ -153,6 +154,7 @@
                 <Label
                 Grid.Row="4"
                 Grid.Column="1"
+                Margin="16,3,16,0"
                 FontFamily="{DynamicResource Montserrat-Medium}"
                 FontSize="12"
                 HorizontalOptions="EndAndExpand"
@@ -163,14 +165,14 @@
                 <!--  Delivery Charges  -->
                 <Label
                 Grid.Row="5"
-                Margin="16,0,16,4"
+                Margin="16,3,16,0"
                 FontFamily="{StaticResource Montserrat-Medium}"
                 Style="{StaticResource PriceLabelStyle}"
                 Text="Delivery Charges" />
                 <Label
                 Grid.Row="5"
                 Grid.Column="1"
-                Margin="16,0,16,4"
+                Margin="16,3,16,0"
                 FontFamily="{DynamicResource Montserrat-Medium}"
                 FontSize="12"
                 HorizontalOptions="EndAndExpand"
@@ -178,16 +180,56 @@
                 Style="{StaticResource PriceLabelStyle}"
                 Text="Free"
                 TextColor="{DynamicResource Green}" />
+                
+                
+                <!--  Payment Mode  -->
+                <Label
+                Grid.Row="6"
+                Margin="16,3,16,3"
+                FontFamily="{StaticResource Montserrat-Medium}"
+                Style="{StaticResource PriceLabelStyle}"
+                Text="Payment Mode " />
+                <Label
+                Grid.Row="6"
+                Grid.Column="1"
+                Margin="16,3,16,3"
+                FontFamily="{DynamicResource Montserrat-Medium}"
+                FontSize="12"
+                HorizontalOptions="EndAndExpand"
+                HorizontalTextAlignment="End"
+                Style="{StaticResource PriceLabelStyle}"
+                Text="{Binding OrderPaymentMode}"/>
+                
+                
+                <!--  Address Type  
+                <Label
+                Grid.Row="7"
+                Margin="16,0,16,3"
+                FontFamily="{StaticResource Montserrat-Medium}"
+                Style="{StaticResource PriceLabelStyle}"
+                Text="Address Type" />
+                <Label
+                Grid.Row="7"
+                Grid.Column="1"
+                Margin="16,0,16,3"
+                FontFamily="{DynamicResource Montserrat-Medium}"
+                FontSize="12"
+                HorizontalOptions="EndAndExpand"
+                HorizontalTextAlignment="End"
+                Style="{StaticResource PriceLabelStyle}"
+                Text="{Binding OrderAddressTypr}" />
+                -->
+                
                 <!--  Separator  -->
                 <BoxView
-                Grid.Row="6"
+                Grid.Row="7"
                 Grid.ColumnSpan="2"
                 HeightRequest="1"
                 Style="{StaticResource BoxViewStyle}" />
                 <!--  Total price  -->
                 <Label
-                Grid.Row="7"
-                Margin="16,12,16,16"
+                Grid.Row="8"
+                Margin="16,8,16,8"
                 FontFamily="{StaticResource Montserrat-SemiBold}"
                 FontSize="16"
                 LineHeight="{OnPlatform Android=1.25,
@@ -196,9 +238,9 @@
                 Text="Total"
                 TextColor="{DynamicResource Gray-900}" />
                 <Label
-                Grid.Row="7"
+                Grid.Row="8"
                 Grid.Column="1"
-                Margin="16,12,16,16"
+                Margin="16,8,16,8"
                 FontFamily="{StaticResource Montserrat-SemiBold}"
                 FontSize="16"
                 HorizontalOptions="EndAndExpand"

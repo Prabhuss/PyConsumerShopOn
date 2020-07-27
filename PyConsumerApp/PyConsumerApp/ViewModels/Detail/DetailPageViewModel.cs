@@ -1,4 +1,6 @@
 ﻿using Microsoft.AppCenter.Analytics;
+using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Bookmarks;
@@ -155,48 +157,49 @@ namespace PyConsumerApp.ViewModels.Detail
         }
         private async void AddToCartClicked(object obj)
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                //await Application.Current.MainPage.DisplayAlert("cart", "adding to cart", "OK");
-                //if (App.CurrentUserId > 0)
+                try
                 {
-                    if (obj != null && obj is DetailPageViewModel detailPageViewModel && detailPageViewModel != null)
+                    //await Application.Current.MainPage.DisplayAlert("cart", "adding to cart", "OK");
+                    //if (App.CurrentUserId > 0)
                     {
-                        var product = detailPageViewModel.ProductDetail;
-                        if(product.Availability_Status.ToString().ToLower()=="no")
+                        if (obj != null && obj is DetailPageViewModel detailPageViewModel && detailPageViewModel != null)
                         {
-                            var result = await Application.Current.MainPage.DisplayAlert("Alert",
-                                "This product is out of stock.", "go back", " ");
-                            if (result)
-                                if (result) await Application.Current.MainPage.Navigation.PopAsync();
-                            return;
+                            var product = detailPageViewModel.ProductDetail;
+                            if (product.Availability_Status.ToString().ToLower() == "no")
+                            {
+                                var result = await Application.Current.MainPage.DisplayAlert("Alert",
+                                    "This product is out of stock.", "go back", " ");
+                                if (result)
+                                    if (result) await Application.Current.MainPage.Navigation.PopAsync();
+                                return;
 
-                        }
-                        var status = await CartDataService.Instance.AddCartItemAsync(product);
-                        //var status = await cartDataService.AddCartItemAsync(App.CurrentUserId, product.Id);
-                        if (status != null && status.IsSuccess)
-                        {
-                            CartItemCount++;
-                            
-                        }
-                        else if (status != null && !status.IsSuccess)
-                        {
-                            var result = await Application.Current.MainPage.DisplayAlert("Alert",
-                                "This item has been already added in cart", "Go to Cart", " ");
-                            if (result) await Application.Current.MainPage.Navigation.PushAsync(new CartPage());
+                            }
+                            var status = await CartDataService.Instance.AddCartItemAsync(product);
+                            //var status = await cartDataService.AddCartItemAsync(App.CurrentUserId, product.Id);
+                            if (status != null && status.IsSuccess)
+                            {
+                                CartItemCount++;
+
+                            }
+                            else if (status != null && !status.IsSuccess)
+                            {
+                                var result = await Application.Current.MainPage.DisplayAlert("Alert",
+                                    "This item has been already added in cart", "Go to Cart", " ");
+                                if (result) await Application.Current.MainPage.Navigation.PushAsync(new CartPage());
+                            }
                         }
                     }
                 }
-                //else
-                //{
-                //    var result = await Application.Current.MainPage.DisplayAlert("Message",
-                //        "Please login to add the product on your cart.", "OK", "CANCEL");
-                //    if (result) Application.Current.MainPage = new NavigationPage(new SimpleLoginPage());
-                //}
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
             }
         }
         private async void BackButtonClicked(object obj)

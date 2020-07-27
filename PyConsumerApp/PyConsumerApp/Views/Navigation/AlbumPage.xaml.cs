@@ -15,14 +15,6 @@ namespace PyConsumerApp.Views.Navigation
         public AlbumPage()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             this.BindingContext = AlbumDataService.Instance.AlbumViewModel;
         }
     }

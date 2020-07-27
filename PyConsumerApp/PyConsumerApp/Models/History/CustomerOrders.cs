@@ -153,9 +153,19 @@ namespace PyConsumerApp.Models.History
         public string DeliveryboyId { get; set; }
 
         [JsonProperty("OrderStatus")]
-        [DataMember(Name = "OrderStatus")]
 
+        [DataMember(Name = "OrderStatus")]
         public string OrderStatus { get; set; }
+        //[JsonProperty("PaymentMode")]
+        [DataMember(Name = "PaymentMode")]
+        public string PaymentMode { get; set; }
+
+        //[JsonProperty("DeliverAddressId")]
+        [DataMember(Name = "DeliverAddressId")]
+        public int? DeliverAddressId { get; set; }
+
+        [DataMember(Name = "PaymentOrderId")]
+        public string PaymentOrderId { get; set; }
     }
 
     public partial class InvocieLineItem

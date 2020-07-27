@@ -86,8 +86,8 @@ namespace PyConsumerApp.DataService
             payload.Add("secondPhone_number", Profile.AlternatePhone);
             payload.Add("address1", Profile.Address1);
             payload.Add("address2", Profile.Address2);
-            payload.Add("latitude", Profile.Longitude) ;
-            payload.Add("longitude", Profile.Latitude);
+            payload.Add("longitude", Profile.Longitude);
+            payload.Add("latitude", Profile.Latitude);
             payload.Add("tag_name", Profile.TagName);
             payload.Add("first_name", Profile.FirstName);
             payload.Add("society_buildingNo", Profile.SocietyBuildingNo);

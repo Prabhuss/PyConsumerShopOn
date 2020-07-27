@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Catalog;
@@ -101,19 +103,27 @@ namespace PyConsumerApp.ViewModels.Catalog
         private async void CategorySelected(object obj)
         {
             IsBusy = true;
-               //await Navigation.PushAsync(new CatalogListPage((Category)obj));
-               var items = await CategoryDataService.Instance.GetSubCategories((SubCategory)obj);
-            if (items != null)
+            //await Navigation.PushAsync(new CatalogListPage((Category)obj));
+            if (CrossConnectivity.Current.IsConnected)
             {
-                await Navigation.PushAsync(new SubCategoryPage(items));
-                await Task.Delay(100);
-                IsBusy = false;
+                var items = await CategoryDataService.Instance.GetSubCategories((SubCategory)obj);
+                if (items != null)
+                {
+                    await Navigation.PushAsync(new SubCategoryPage(items));
+                    await Task.Delay(100);
+                    IsBusy = false;
+                }
+                else
+                {
+                    //await Navigation.PushAsync(new CatalogListPage((Category)obj));
+                    await Navigation.PushAsync(new CatalogListPage((SubCategory)obj));
+                    await Task.Delay(100);
+                    IsBusy = false;
+                }
             }
             else
             {
-                //await Navigation.PushAsync(new CatalogListPage((Category)obj));
-                await Navigation.PushAsync(new CatalogListPage((SubCategory)obj));
-                await Task.Delay(100);
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
                 IsBusy = false;
             }
         }

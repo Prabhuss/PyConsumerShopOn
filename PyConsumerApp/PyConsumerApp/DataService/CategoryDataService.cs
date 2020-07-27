@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Analytics;
+using PyConsumerApp.Controls;
 using PyConsumerApp.Models;
 using PyConsumerApp.ViewModels;
 using PyConsumerApp.ViewModels.Catalog;
@@ -178,36 +179,17 @@ namespace PyConsumerApp.DataService
                 payload.Add("lastSyncDate", null);
                 payload.Add("category_name", category.Name);
                 ProductListResponse<Product> robject = await this.Post<ProductListResponse<Product>>(this.getProductUrl("getProductDetails"), payload, null);
-                /*ProductListResponse<Dictionary<string, string>> robject = await this.Post<ProductListResponse<Dictionary<string, string>>>(this.getProductUrl("getProductDetails"), payload, null);
-                ObservableCollection<Product> products = new ObservableCollection<Product>();
-                foreach (var item in robject.Data)
-                {
-                    products.Add(new Product()
-                    {
-                       PreviewImage = item["productPicUrl"],
-                       TotalQuantity = Convert.ToInt32(item["QuantityList"]),
-                       discount = Convert.ToDouble(item["discount"]),
-                       SellingPrice = Convert.ToDouble(item["mrp"]),
-                       CitrineProdId = Convert.ToInt32(item["CitrineProdId"]),
-                       productName = item["productName"],
-                       productDesc = item["productDesc"],
-                       Category = item["Category"],
 
-                    });
-                }
-                return products;*/
-                 if (robject.Status == "SUCCESS")
-                {
-                    return robject.Data;
-                }
-                else
-                {
-                    return null;
-                }
+                if (robject != null)
+                    if (robject.Status.ToUpper() == "SUCCESS")
+                    {
+                        return robject.Data;
+                    } 
+                return null;
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
+                DependencyService.Get<IToastMessage>().LongTime("Error CSD02:Something went wrong. Plese try again. ");
                 return null;
             }
             
@@ -225,18 +207,16 @@ namespace PyConsumerApp.DataService
                 payload.Add("page_number", pageno);
                 payload.Add("product_name", searchText);
                 ProductListResponse<SearchProduct> robject = await this.Post<ProductListResponse<SearchProduct>>(this.getProductUrl("getProductBySearch"), payload, null);
-                if (robject.Status == "SUCCESS")
-                {
-                    return robject.Data;
-                }
-                else
-                {
-                    return null;
-                }
+                if (robject != null)
+                    if (robject.Status.ToUpper() == "SUCCESS")
+                    {
+                        return robject.Data;
+                    }
+                return null;
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                DependencyService.Get<IToastMessage>().LongTime("Error CDS01: Something went wrong. Please try again.");
                 return null;
             }
         }
@@ -262,7 +242,7 @@ namespace PyConsumerApp.DataService
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                DependencyService.Get<IToastMessage>().LongTime("Error CSD03:Something went wrong. Plese try again. ");
                 return null;
             }
         }
@@ -290,7 +270,7 @@ namespace PyConsumerApp.DataService
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                DependencyService.Get<IToastMessage>().LongTime("Error CSD04:Something went wrong. Plese try again. ");
                 return null;
             }
         }

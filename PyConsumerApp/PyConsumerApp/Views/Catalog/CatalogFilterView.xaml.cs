@@ -15,14 +15,6 @@ namespace PyConsumerApp.Views.Catalog
         public CatalogFilterView()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             listView.ItemsSource = new List<string>
             {
                 "Test ListView",

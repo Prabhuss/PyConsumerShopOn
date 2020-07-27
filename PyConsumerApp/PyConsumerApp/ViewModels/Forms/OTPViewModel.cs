@@ -1,4 +1,6 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Controls;
+using PyConsumerApp.DataService;
 using PyConsumerApp.Views.Navigation;
 using System;
 using System.Collections.Generic;
@@ -163,63 +165,69 @@ private string otp;
         /// <param name="obj">The Object</param>
         private async void OtpClicked(object obj)
         {
-            Log.Debug("OTPViewModel-Initialize", "OTP Button is clicked.");
-
-            var app = Application.Current as App;
-            try
+            IsBusy = true;
+            if (string.IsNullOrEmpty(OTP))
             {
-                IsBusy = true;
-                //await page.DisplayAlert("INFO", "Is it done ", "Ok");
-                Debug.WriteLine(@"Entered OTP is '" + OTP + "'");
-                //Debug.WriteLine(@"Received OTP is '" + loginData["status"] + "'");
-                IsInvalidOtp = false;
-                if (string.IsNullOrEmpty(OTP))
-                {
-                    InvalidError = "Please enter the OTP first";
-                    await Task.Delay(100);
-                    IsBusy = false;
-                    return;
-                }
-                if (OTP.Length != 6)
-                {
-                    InvalidError = "Please enter 6 Digit OTP ";
-                    await Task.Delay(100);
-                    IsBusy = false;
-                    return;
-                }
-                //hardcodeMerchantID
-                bool valid = await OTPDataService.Instance.validateOtp("1", loginData["phoneNumber"], OTP);
-                if (valid)
-                {
-                    IsInvalidOtp = false;
-                    app.IsLoggedIn = true;
-                    app.UserPhoneNumber = loginData["phoneNumber"];
-                    //hardcodeMerchantID
-                    app.Merchantid = "1";
-                    await Task.Delay(100);
-                    Application.Current.MainPage = new NavigationPage(new BottomNavigationPage());
-                    BaseViewModel.Navigation = Application.Current.MainPage.Navigation;
-                    await Task.Delay(10);
-                    IsBusy = false;
-                }
-                else
-                {
-                    await Task.Delay(10);
-                    // Invalid OTP
-                    Debug.WriteLine(@"Invalid OTP");
-                    InvalidError = "Please enter the valid OTP ";
-                    IsInvalidOtp = true;
-                    await Task.Delay(10);
-                    IsBusy = false;
-                }
-            }
-            catch (Exception e)
-            {
-                IsInvalidOtp = true;
-                InvalidError = "Something went wrong (OTP Error): " + e.Message;
+                InvalidError = "Please enter the OTP first";
                 await Task.Delay(100);
                 IsBusy = false;
+                return;
             }
+            if (OTP.Length != 6)
+            {
+                InvalidError = "Please enter 6 Digit OTP ";
+                await Task.Delay(100);
+                IsBusy = false;
+                return;
+            }
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                var app = Application.Current as App;
+                try
+                {
+                    Debug.WriteLine(@"Entered OTP is '" + OTP + "'");
+                    IsInvalidOtp = false;
+
+                    //hardcodeMerchantID
+                    bool valid = await OTPDataService.Instance.validateOtp("1", loginData["phoneNumber"], OTP);
+                    if (valid)
+                    {
+                        IsInvalidOtp = false;
+                        app.IsLoggedIn = true;
+                        app.UserPhoneNumber = loginData["phoneNumber"];
+                        //hardcodeMerchantID
+                        app.Merchantid = "1";
+                        await Task.Delay(100);
+                        Application.Current.MainPage = new NavigationPage(new BottomNavigationPage());
+                        BaseViewModel.Navigation = Application.Current.MainPage.Navigation;
+                        await Task.Delay(10);
+                        IsBusy = false;
+                    }
+                    else
+                    {
+                        await Task.Delay(10);
+                        // Invalid OTP
+                        Debug.WriteLine(@"Invalid OTP");
+                        InvalidError = "Please enter the valid OTP ";
+                        IsInvalidOtp = true;
+                        await Task.Delay(10);
+                        IsBusy = false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    IsInvalidOtp = true;
+                    InvalidError = "Something went wrong (OTP Error): " + e.Message;
+                    await Task.Delay(100);
+                    IsBusy = false;
+                }
+            }
+            else
+            {
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
+                IsBusy = false;
+            }
+
         }
 
     }

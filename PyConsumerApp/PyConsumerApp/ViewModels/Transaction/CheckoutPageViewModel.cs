@@ -2,6 +2,7 @@
 using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Transaction;
@@ -452,15 +453,6 @@ namespace PyConsumerApp.ViewModels.Transaction
 
         public async void FetchAddresses()
         {
-
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-               await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             DeliveryAddress.Clear();
             try
             {
@@ -485,7 +477,7 @@ namespace PyConsumerApp.ViewModels.Transaction
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error2", ex.Message, "OK");
+                //await Application.Current.MainPage.DisplayAlert("Error2", ex.Message, "OK");
             }
         }
 
@@ -596,8 +588,15 @@ namespace PyConsumerApp.ViewModels.Transaction
         private async void AddAddressClicked(object obj)
         {
             await Task.Delay(100);
-            await Navigation.PushAsync(new AddressEditPage());
-            await Task.Delay(10);
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                await Navigation.PushAsync(new AddressEditPage());
+                await Task.Delay(10);
+            }
+            else
+            {
+                DependencyService.Get<IToastMessage>().ShortTime("Please connect to the Internet to add new Address.");
+            }
         }
 
         /// <summary>
@@ -626,48 +625,37 @@ namespace PyConsumerApp.ViewModels.Transaction
         private async void PlaceOrderClicked(object obj)
         {
 
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-               await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
-
             IsBusy = true;
             if (!ButtonActive)
                 return;
             ButtonActive = false;
-            await Task.Delay(1000);
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                        if (SelectedDeliveryAddress == null)
-                        {
-                            await Application.Current.MainPage.DisplayAlert("No Address Selected", "Please select address from the list or add new address", "Ok");
-                    ButtonActive = true; 
-                    IsBusy = false;
-                    return;
-                        }
-					if(DiscountPrice < MinimumOrderAmount)
-	                {
-	                    await Application.Current.MainPage.DisplayAlert("Message", "The minimum amount to place the order is: ₹" + MinimumOrderAmount, "Ok");
-                    ButtonActive = true; 
-                    IsBusy = false;
-                    return;
-	                }
-	                if (PaymentOption.ToUpper() == "PAY WITH CASHFREE")
+                await Task.Delay(1000);
+                try
+                {
+                    if (SelectedDeliveryAddress == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("No Address Selected", "Please select address from the list or add new address", "Ok");
+                        ButtonActive = true;
+                        IsBusy = false;
+                        return;
+                    }
+                    if (DiscountPrice < MinimumOrderAmount)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Message", "The minimum amount to place the order is: ₹" + MinimumOrderAmount, "Ok");
+                        ButtonActive = true;
+                        IsBusy = false;
+                        return;
+                    }
+                    if (PaymentOption.ToUpper() == "PAY WITH CASHFREE")
                     {
                         var app = App.Current as App;
                         string invoiceId = "Order_" + app.Merchantid + "_" + String.Format("{0:d9}", (DateTime.Now.Ticks / 10) % 1000000000);
                         Dictionary<string, string> header = new Dictionary<string, string>();
-                     /*   header.Add("x-client-id", "3259e36b680c168d9db036fa9523");
-                        header.Add("x-client-secret", "97d1e574d1c7ba2021a9991bc598978d15c7ef9d");
-                    */
-                        
                         header.Add("x-client-id", PaymentAppId);
                         header.Add("x-client-secret", PaymentSecretKey);
-                        
+
                         Dictionary<string, string> formParams = new Dictionary<string, string>();
                         formParams.Add("orderId", invoiceId);
                         formParams.Add("orderAmount", this.DiscountPrice.ToString());
@@ -678,9 +666,9 @@ namespace PyConsumerApp.ViewModels.Transaction
                         formParams.Add("customerEmail", "test@cashfree.com");
                         formParams.Add("returnUrl", "http://example.com");
                         formParams.Add("notifyUrl", "http://example.com");
-                    //string signature = await MyOrdersDataService.Instance.generateCFtoken(formParams, header);
-                    string signature = await MyOrdersDataService.Instance.generateCFtoken(formParams, header, Stage);
-                    formParams.Add("tokenData", signature);
+                        //string signature = await MyOrdersDataService.Instance.generateCFtoken(formParams, header);
+                        string signature = await MyOrdersDataService.Instance.generateCFtoken(formParams, header, Stage);
+                        formParams.Add("tokenData", signature);
                         /* Button btn = new Button
                          {
                              Text = "Do Payment"
@@ -704,21 +692,29 @@ namespace PyConsumerApp.ViewModels.Transaction
                          Application.Current.MainPage = Cp;*/
                         //await Application.Current.MainPage.Navigation.PushAsync(new CFPaymentScreen(Stage, "3259e36b680c168d9db036fa9523", formParams, this));
                         await Application.Current.MainPage.Navigation.PushAsync(new CFPaymentScreen(Stage, PaymentAppId, formParams, this));
-                }
+                    }
                     else if (PaymentOption.ToUpper() == "CASH ON DELIVERY")
                     {
                         orderComplete("NULL", "COD");
                     }
                     else
                     {
-                      await  Application.Current.MainPage.DisplayAlert("Oops!!!", "Select Your Payment Method !!!", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Oops!!!", "Select Your Payment Method !!!", "OK");
                     }
-            
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                DependencyService.Get<IToastMessage>().ShortTime("No Internet Connection");
+                IsBusy = false;
+                buttonActive = true;
             }
+
         }
 
         /// <summary>

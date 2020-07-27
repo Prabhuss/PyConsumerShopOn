@@ -15,14 +15,6 @@ namespace PyConsumerApp.Views.Forms
         public OTPView()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             vModel = new OTPViewModel(Navigation);
             BindingContext = vModel;
             //GlobalEvents.OnSMSReceived += GlobalEvents_OnSMSReceived;

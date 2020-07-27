@@ -1,4 +1,6 @@
-﻿using PyConsumerApp.DataService;
+﻿using Plugin.Connectivity;
+using PyConsumerApp.Controls;
+using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Bookmarks;
 using PyConsumerApp.Views.Catalog;
@@ -138,32 +140,40 @@ namespace PyConsumerApp.ViewModels.Catalog
         }
         private async void CategorySelected(object obj)
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                IsBusy = true;
-                //var items = await CategoryDataService.Instance.GetSubCategories((Category)obj);
-                var items = await CategoryDataService.Instance.GetSubCategories((SubCategory)obj);
-                string selectedCategoryName = ((SubCategory)obj).Name;
-                if (items != null)
+                try
                 {
-                    await Navigation.PushAsync(new SubCategoryPage(items));
-                    await Task.Delay(100);
-                    IsBusy = false;
+                    IsBusy = true;
+                    //var items = await CategoryDataService.Instance.GetSubCategories((Category)obj);
+                    var items = await CategoryDataService.Instance.GetSubCategories((SubCategory)obj);
+                    string selectedCategoryName = ((SubCategory)obj).Name;
+                    if (items != null)
+                    {
+                        await Navigation.PushAsync(new SubCategoryPage(items));
+                        await Task.Delay(100);
+                        IsBusy = false;
+                    }
+                    else
+                    {
+                        //await Navigation.PushAsync(new CatalogListPage((Category)obj));
+                        await Navigation.PushAsync(new CatalogListPage((SubCategory)obj));
+                        await Task.Delay(100);
+                        IsBusy = false;
+                    }
                 }
-                else
+                finally
                 {
-                    //await Navigation.PushAsync(new CatalogListPage((Category)obj));
-                    await Navigation.PushAsync(new CatalogListPage((SubCategory)obj));
-                    await Task.Delay(100);
+                    //IsLoading = false;
                     IsBusy = false;
                 }
             }
-            finally
+            else
             {
-                //IsLoading = false;
+                DependencyService.Get<IToastMessage>().ShortTime("No Internet Connection");
                 IsBusy = false;
             }
-           
+
 
         }
         private async void CartClicked(object obj)

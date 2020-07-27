@@ -1,8 +1,10 @@
 ﻿using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.ViewModels.Transaction;
 using Syncfusion.XForms.Buttons;
 using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
@@ -17,14 +19,6 @@ namespace PyConsumerApp.Views.Transaction
         public CheckoutPage()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             var userDataService = ProfileDataService.Instance;
             var cartDataService = CartDataService.Instance;
             var catalogDataService = CatalogDataService.Instance;
@@ -39,6 +33,14 @@ namespace PyConsumerApp.Views.Transaction
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+
+            }
+            else
+            {
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
+            }
             viewModel.FetchAddresses();
             //viewModel.GetPaymentCredentials();
         }

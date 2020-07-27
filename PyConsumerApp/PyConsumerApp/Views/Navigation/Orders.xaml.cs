@@ -11,15 +11,6 @@ namespace PyConsumerApp.Views.Navigation
         public Orders()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
-            //BindingContext = new OrdersViewModel();
         }
     }
     /* public class ExtendedListView : SfListView

@@ -28,7 +28,6 @@ namespace PyConsumerApp
         private const string logIn_Status = "logInStatus";
         private const string securityAccessKey = "securityAccessKey";
         private const string user_PhoneNumber  = "UserPhoneNumber";
-        private const string fireBaseToken = "fireBaseToken";
         private const string minimumOrderAmount = "minimumOrderAmount";
         //hardcodeMerchantID
         private const string merchantid = "1";
@@ -58,20 +57,6 @@ namespace PyConsumerApp
             }
         }
 
-
-        public string FireBaseToken
-        {
-            get
-            {
-                if (Properties.ContainsKey(fireBaseToken))
-                    return (string)Properties[fireBaseToken];
-                return null;
-            }
-            set
-            {
-                Properties[fireBaseToken] = value;
-            }
-        }
         public bool IsLoggedIn
         {
             get
@@ -138,21 +123,6 @@ namespace PyConsumerApp
             }
         }
 
-        private async void RetrieveToken()
-        {
-            try
-            {
-                IFCMDetails fcmDetails = DependencyService.Get<IFCMDetails>();
-                string token = await fcmDetails.GetAppToken();
-                FireBaseToken = token;
-                System.Diagnostics.Debug.WriteLine("FCM Token is " + token);
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.Message);
-                //await Application.Current.MainPage.DisplayAlert("Notification Error", "Error in generating firebase token", "ok");
-            }
-        }
         public App()
         {
             try
@@ -171,7 +141,7 @@ namespace PyConsumerApp
                     BaseViewModel.Navigation = MainPage.Navigation;
                 }
                 DependencyService.Register<MockDataStore>();
-                new Task(() => RetrieveToken()).Start();
+                
             }
             catch (Exception e)
             {
@@ -182,14 +152,6 @@ namespace PyConsumerApp
 
         protected override void OnStart()
         {
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             AppCenter.Start("android=fea975bc-6fe5-4c13-912a-88aaefdc38a2;" +
                   "uwp={Your UWP App secret here};" +
                   "ios={Your iOS App secret here}",

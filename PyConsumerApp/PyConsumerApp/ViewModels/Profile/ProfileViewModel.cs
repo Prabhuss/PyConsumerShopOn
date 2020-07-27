@@ -1,5 +1,6 @@
 ﻿using Microsoft.AppCenter.Analytics;
 using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Forms;
@@ -75,27 +76,26 @@ namespace PyConsumerApp.ViewModels.Profile
 
             if (CrossConnectivity.Current.IsConnected)
             {
-
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
-            Analytics.TrackEvent("ModifyUserInfo_Clicked", new Dictionary<string, string> {
+                Analytics.TrackEvent("ModifyUserInfo_Clicked", new Dictionary<string, string> {
                             { "MerchantBranchId", app.Merchantid},
                             { "UserPhoneNumber", app.UserPhoneNumber},
                             });
-            bool resonse = await ProfileDataService.Instance.SaveCustomerInfo(Profile);
-            GetUserProfile();
-            if(resonse == true)
-            {
-                await Application.Current.MainPage.DisplayAlert("Message", "Profile changed successfully", "Ok");
-                await Application.Current.MainPage.Navigation.PopAsync();
+                bool resonse = await ProfileDataService.Instance.SaveCustomerInfo(Profile);
+                GetUserProfile();
+                if (resonse == true)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Message", "Profile changed successfully", "Ok");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error Message", "Something went Wrong", "Ok");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error Message", "Somthing went Wrong", "Ok");
-                await Application.Current.MainPage.Navigation.PopAsync();
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
             }
         }
         public async void GetUserProfile()

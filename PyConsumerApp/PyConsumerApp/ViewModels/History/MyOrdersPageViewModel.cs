@@ -1,4 +1,5 @@
 ﻿using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models.History;
 using System;
@@ -38,15 +39,6 @@ namespace PyConsumerApp.ViewModels.History
         public MyOrdersPageViewModel(MyOrdersDataService myOrdersDataService)
         {
             this.orderDataService = myOrdersDataService;
-
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             OrderDetails = new ObservableCollection<CustomerInvoiceDatum>();
             RequestedOrders = new ObservableCollection<CustomerInvoiceDatum>();
             CancelOrders = new ObservableCollection<CustomerInvoiceDatum>();
@@ -264,46 +256,53 @@ namespace PyConsumerApp.ViewModels.History
 
         public async Task FetchOrders()
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                OrderDetails.Clear();
-                RequestedOrders.Clear();
-                CancelOrders.Clear();
-                CompleteOrders.Clear();
-                ProductList.Clear();
-                CustomerOrders orders = await this.orderDataService.GetOrderedItemsAsync();
-                if (orders != null)
+                try
                 {
-                    foreach (var item in orders.Data.CustomerInvoiceData)
+                    OrderDetails.Clear();
+                    RequestedOrders.Clear();
+                    CancelOrders.Clear();
+                    CompleteOrders.Clear();
+                    ProductList.Clear();
+                    CustomerOrders orders = await this.orderDataService.GetOrderedItemsAsync();
+                    if (orders != null)
                     {
-                        OrderDetails.Add(item);
-                        if (!string.IsNullOrEmpty(item.OrderStatus))
+                        foreach (var item in orders.Data.CustomerInvoiceData)
                         {
-                            if (item.OrderStatus.ToLower().Replace(" ","") == "ontheway" || item.OrderStatus.ToLower().Replace(" ", "") == "packed"
-                                        || item.OrderStatus.ToLower().Replace(" ", "") == "inprogress" || item.OrderStatus.ToLower().Replace(" ", "") == "accepted")
-                                RequestedOrders.Add(item);
-                            else if (item.OrderStatus.ToLower() == "cancelled" || item.OrderStatus.ToLower() == "rejected")
-                                CancelOrders.Add(item);
-                            else if (item.OrderStatus.ToLower() == "delivered")
-                                CompleteOrders.Add(item);
+                            OrderDetails.Add(item);
+                            if (!string.IsNullOrEmpty(item.OrderStatus))
+                            {
+                                if (item.OrderStatus.ToLower().Replace(" ", "") == "ontheway" || item.OrderStatus.ToLower().Replace(" ", "") == "packed"
+                                            || item.OrderStatus.ToLower().Replace(" ", "") == "inprogress" || item.OrderStatus.ToLower().Replace(" ", "") == "accepted")
+                                    RequestedOrders.Add(item);
+                                else if (item.OrderStatus.ToLower() == "cancelled" || item.OrderStatus.ToLower() == "rejected")
+                                    CancelOrders.Add(item);
+                                else if (item.OrderStatus.ToLower() == "delivered")
+                                    CompleteOrders.Add(item);
+                            }
+                        }
+
+                        foreach (var item in orders.Data.InvocieLineItems)
+                        {
+                            ProductList.Add(item);
                         }
                     }
-
-                    foreach (var item in orders.Data.InvocieLineItems)
-                    {
-                        ProductList.Add(item);
-                    }
+                }
+                catch (Exception e)
+                {
+                    DependencyService.Get<IToastMessage>().LongTime("Unable to load order list");
+                }
+                finally
+                {
+                    IsBusy = false;
                 }
             }
-            catch (Exception e)
+            else
             {
-                await App.Current.MainPage.DisplayAlert("msg", "Unable to load order list", "ok");
-            }
-            finally
-            {
+                DependencyService.Get<IToastMessage>().LongTime("Check your Internet Connection to reload the list");
                 IsBusy = false;
             }
-
         }
 
         #endregion

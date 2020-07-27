@@ -1,5 +1,6 @@
 ﻿using Microsoft.AppCenter.Analytics;
 using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Views.Forms;
 using PyConsumerApp.Views.Navigation;
@@ -33,14 +34,6 @@ namespace PyConsumerApp.ViewModels.Forms
         /// </summary>
         public LoginPageViewModel(INavigation _navigation)
         {
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             this.LoginCommand = new Command(this.LoginClicked);
             this.SignUpCommand = new Command(this.SignUpClicked);
             this.SkipCommand = new Command(this.SkipClicked);
@@ -121,62 +114,84 @@ namespace PyConsumerApp.ViewModels.Forms
         private async void LoginClicked(object obj)
         {
             IsBusy = true;
-            try
+            if (string.IsNullOrEmpty(PhoneNumber))
             {
-                var app = Application.Current as App;
-                //var app = App.Current as App;
-                ShowHideBusyIndicator(true);
-                Debug.WriteLine(@"Invoking the rest  generate otp APi ");
-                //if (otp != null)
-                if (string.IsNullOrEmpty(PhoneNumber))
+                await page.DisplayAlert("Incorrect Number", "Please enter your phone number first", "OK");
+                IsBusy = false;
+                return;
+            }
+            if (PhoneNumber.Length != 10)
+            {
+                await page.DisplayAlert("Incorrect Number", "Please enter a 10 digit Phone Number", "OK");
+                IsBusy = false;
+                return;
+            }
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                try
                 {
-                    await page.DisplayAlert("Incorrect Number", "Please enter your phone number first", "OK");
-                    IsBusy = false;
-                    return;
-                }
-                if (PhoneNumber.Length != 10)
-                {
-                    await page.DisplayAlert("Incorrect Number", "Please enter a 10 digit Phone Number", "OK");
-                    IsBusy = false; 
-                    return;
-                }
-                Analytics.TrackEvent("LoginClicked", new Dictionary<string, string> {
+                    var app = Application.Current as App;
+                    ShowHideBusyIndicator(true);
+                    Debug.WriteLine(@"Invoking the rest  generate otp APi ");
+                    //AnalyticsFunction
+                    Analytics.TrackEvent("LoginClicked", new Dictionary<string, string> {
                             { "UserPhoneNumber", PhoneNumber },
                             //hardcodeMerchantID
                             { "MerchantBranchId", "1"}
                             });
-                Debug.WriteLine(@"Invoking the rest  generate otp APi ");
-                string NotificationToken = app.FireBaseToken;
-                Debug.WriteLine(@"Registration Token " + NotificationToken);
-                //hardcodeMerchantID
-                Dictionary<string, string> generateotp_response = await OTPDataService.Instance.GenerateOtp("1", PhoneNumber, NotificationToken);
-                Debug.WriteLine(@"Response received " + generateotp_response);
-                if (generateotp_response["status"].ToLower() == "success")
-                {
-                    DependencyService.Get<IHashService>().StartSMSRetriverReceiver();
-                    app.SecurityAccessKey = generateotp_response["accessKey"];
-                    OTPView view = new OTPView();
-                    view.Initialize(new Dictionary<string, string>()
+                    //Calling FireBaseToken Function
+                    string NotificationToken = await RetrieveToken();
+                    Debug.WriteLine(@"Registration Token " + NotificationToken);
+                    //hardcodeMerchantID
+                    Dictionary<string, string> generateotp_response = await OTPDataService.Instance.GenerateOtp("1", PhoneNumber, NotificationToken);
+                    if (generateotp_response["status"].ToLower() == "success")
+                    {
+                        DependencyService.Get<IHashService>().StartSMSRetriverReceiver();
+                        app.SecurityAccessKey = generateotp_response["accessKey"];
+                        OTPView view = new OTPView();
+                        view.Initialize(new Dictionary<string, string>()
                 {
                     { "phoneNumber", PhoneNumber }
                 });
-                    await Navigation.PushAsync(view);
-                    await Task.Delay(10);
-                    ShowHideBusyIndicator(false);
+                        await Navigation.PushAsync(view);
+                        await Task.Delay(10);
+                        ShowHideBusyIndicator(false);
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("INFO", "Unable to generate OTP. Please try again.", "Ok");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    await page.DisplayAlert("INFO", "Unable to generate OTP. Please try again.", "Ok");
+                    Debug.WriteLine(@"Error in login  " + e.Message);
+                    await page.DisplayAlert("Error", "Error in login ", "Ok");
                 }
+                IsBusy = false;
             }
-            catch (Exception e)
+            else
             {
-                Debug.WriteLine(@"Error in login  " +e.Message);
-                await page.DisplayAlert("Error", "Error in login ", "Ok");
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
+                IsBusy = false;
             }
-            IsBusy = false;
         }
 
+        private async Task<string> RetrieveToken()
+        {
+            string token = "";
+            try
+            {
+                IFCMDetails fcmDetails = DependencyService.Get<IFCMDetails>();
+                token = await fcmDetails.GetAppToken();
+                System.Diagnostics.Debug.WriteLine("FCM Token is " + token);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                //await Application.Current.MainPage.DisplayAlert("Notification Error", "Error in generating firebase token", "ok");
+            }
+            return string.IsNullOrEmpty(token) ? "" : token;
+        }
         private async void SkipClicked(object obj)
         {
             Debug.WriteLine("TestMode is enabled, enabling default login");

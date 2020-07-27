@@ -20,14 +20,6 @@ namespace PyConsumerApp.Views.Profile
         public ProfilePage()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             viewModel = new ProfileViewModel();
             //viewModel.Profile = ProfileDataService.Instance.ProfileViewModel.Profile;
             this.BindingContext = viewModel;

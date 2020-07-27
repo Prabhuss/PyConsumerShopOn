@@ -81,6 +81,13 @@
             <Label
                             Margin="0"
                             FontFamily="{StaticResource Montserrat-Medium}"
+                            FontSize="12"
+                            Text="{Binding PaymentMode, StringFormat='Payment Mode: {0}'}"
+                            VerticalOptions="Center" />
+            <!--  Order ID  -->
+            <Label
+                            Margin="0"
+                            FontFamily="{StaticResource Montserrat-Medium}"
                             FontSize="13"
                             FontAttributes="Bold"
                             TextColor="{DynamicResource HyperLink}"

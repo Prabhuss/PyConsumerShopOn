@@ -11,6 +11,7 @@ using Xamarin.Forms.Xaml;
 using PyConsumerApp.DataService;
 using System;
 using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 
 namespace PyConsumerApp.Views.Catalog
 {
@@ -31,14 +32,6 @@ namespace PyConsumerApp.Views.Catalog
         public CategoryTilePage()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             //vm = new CategoryPageViewModel();
             vm = new SubCategoryPageViewModel();
             this.BindingContext = vm;
@@ -48,34 +41,36 @@ namespace PyConsumerApp.Views.Catalog
         }
         async private Task populateData()
         {
-           // ObservableCollection<Category> categories = await CategoryDataService.Instance.PopulateData();
-            ObservableCollection<SubCategory> categories = await CategoryDataService.Instance.PopulateData();
-            if (categories != null)
+            if (CrossConnectivity.Current.IsConnected)
             {
-                vm.Categories = categories;
-            }
-            try
-            {
-                var app = App.Current as App;
-                Merchantdata MrechantSettingDetails = await CategoryDataService.Instance.GetMerchantSettings("Amount");
-                if (MrechantSettingDetails != null)
+                ObservableCollection<SubCategory> categories = await CategoryDataService.Instance.PopulateData();
+                if (categories != null)
                 {
-                    app.MinimumOrderAmount = Double.Parse(MrechantSettingDetails.SettingValue);
-                    bool DistanceCalculated = await DistanceCheck();
-                    if (!DistanceCalculated)
-                    {
-                        await Task.Delay(2000);
-                        //await DisplayAlert("Location Error(101)", "Unable to access Location", "Ok");
-                    }
+                    vm.Categories = categories;
                 }
-            }
-            catch (Exception e)
-            {
-                string a = e.Message;
-                await Task.Delay(1000);
-                //await DisplayAlert("Error", "Somthing went wrong while accessing Merchant details", "Ok");
-            }
+                try
+                {
+                    var app = App.Current as App;
+                    Merchantdata MerchantSettingDetails = await CategoryDataService.Instance.GetMerchantSettings("Amount");
+                    if (MerchantSettingDetails != null)
+                    {
+                        if(MerchantSettingDetails.SettingIsActive.ToLower()=="yes")
+                            app.MinimumOrderAmount = Double.Parse(MerchantSettingDetails.SettingValue);
+                    }
+                    bool DistanceCalculated = await DistanceCheck();
+                }
+                catch (Exception e)
+                {
+                    string a = e.Message;
+                    await Task.Delay(1000);
+                    //await DisplayAlert("Error", "Somthing went wrong while accessing Merchant details", "Ok");
+                }
 
+            }
+            else
+            {
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
+            }
         }
 
         async private Task<bool> DistanceCheck()
@@ -87,13 +82,13 @@ namespace PyConsumerApp.Views.Catalog
                 double Distance = Double.Parse(await CategoryDataService.Instance.CalculateDistance(Latitude, Longitude));
                 if (Distance > 0)
                 {
-                    Merchantdata MrechantSettingDetails = await CategoryDataService.Instance.GetMerchantSettings("Distance");
-                    if (MrechantSettingDetails != null)
+                    Merchantdata MerchantSettingDetails = await CategoryDataService.Instance.GetMerchantSettings("Distance");
+                    if (MerchantSettingDetails != null)
                     {
-                        if ((Double.Parse(MrechantSettingDetails.SettingValue) - Distance) < 0)
-                        {
-                            await DisplayAlert("Message", MrechantSettingDetails.SettingMessage, "Ok");
-                        }
+                        if(MerchantSettingDetails.SettingIsActive.ToLower() =="yes")
+                            if ((Double.Parse(MerchantSettingDetails.SettingValue) - Distance) < 0)
+                                await DisplayAlert("Message", MerchantSettingDetails.SettingMessage, "Ok");
+
                         return true;
                     }
                 }

@@ -13,14 +13,6 @@ namespace PyConsumerApp.Views.Transaction
         public PaymentSuccessPage()
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
         }
     }
 }

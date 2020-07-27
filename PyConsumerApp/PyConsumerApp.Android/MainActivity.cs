@@ -41,14 +41,6 @@ namespace PyConsumerApp.Droid
             FlurryAgent.SetLogEvents(true);
 
             base.OnCreate(savedInstanceState);
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             if (Intent.Extras != null)
             {
                 foreach (var key in Intent.Extras.KeySet())

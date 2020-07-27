@@ -1,4 +1,5 @@
 ﻿using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using System;
@@ -86,70 +87,68 @@ namespace PyConsumerApp.ViewModels.Transaction
 
         private async void UseMyLocation_Clicked(object obj)
         {
-
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
-
             if (CustomerAddress.FirstName== null || CustomerAddress.Address2 == null || CustomerAddress.TagName == null)
             {
                 await Application.Current.MainPage.DisplayAlert("To use location", "Please fill all the above fields", "Ok");
                 return;
             }
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                CustomerAddress.Address1 = "Location is given as Delivery Address";
-                CustomerAddress.SocietyBuildingNo = "";
-                CustomerAddress.FlatNoDoorNo = "";
-                CustomerAddress.City = "";
-                CustomerAddress.State = "";
-
-                var app = App.Current as App;
                 try
                 {
-                    var location = await Geolocation.GetLastKnownLocationAsync();
-                    if (location != null)
+                    CustomerAddress.Address1 = "Location is given as Delivery Address";
+                    CustomerAddress.SocietyBuildingNo = "";
+                    CustomerAddress.FlatNoDoorNo = "";
+                    CustomerAddress.City = "";
+                    CustomerAddress.State = "";
+
+                    var app = App.Current as App;
+                    try
                     {
-                        CustomerAddress.Latitude = location.Latitude.ToString();
-                        CustomerAddress.Longitude = location.Longitude.ToString();
+                        var location = await Geolocation.GetLastKnownLocationAsync();
+                        if (location != null)
+                        {
+                            CustomerAddress.Latitude = location.Latitude.ToString();
+                            CustomerAddress.Longitude = location.Longitude.ToString();
+                        }
+                        else
+                        {
+                            DependencyService.Get<IToastMessage>().LongTime("Error L01: Unable to fetch Current location");
+                        }
+                    }
+                    catch (FeatureNotSupportedException fnsEx)
+                    {
+                        DependencyService.Get<IToastMessage>().LongTime("Error L02: Unable to fetch Current location");
+                    }
+                    catch (PermissionException pEx)
+                    {
+                        DependencyService.Get<IToastMessage>().LongTime("Error L03: Unable to fetch Current location");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        DependencyService.Get<IToastMessage>().LongTime("Error L04: Unable to fetch Current location");
+                    }
+
+                    bool resonse = await CartDataService.Instance.SaveAddressInfo(CustomerAddress);
+                    if (resonse == true)
+                    {
+                        DependencyService.Get<IToastMessage>().LongTime("Address changed successfully");
+                        await Application.Current.MainPage.Navigation.PopAsync();
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Location Error1", "Unable to fetch Current location", "Ok");
+                        DependencyService.Get<IToastMessage>().LongTime("Error L05: Connection Problem. Something went wrong.");
+                        //await Application.Current.MainPage.DisplayAlert("Error Message", "Somthing went Wrong", "Ok");
                     }
                 }
-                catch (FeatureNotSupportedException fnsEx)
+                catch (Exception e)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Location Error2", "Unable to fetch Current location", "Ok");
-                }
-                catch (PermissionException pEx)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Location Error3", "Unable to fetch Current location", "Ok");
-                }
-                catch (System.Exception ex)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Location Error4", "Unable to fetch Current location", "Ok");
-                }
-
-                bool resonse = await CartDataService.Instance.SaveAddressInfo(CustomerAddress);
-                if (resonse == true)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Message", "Address changed successfully", "Ok");
-                    await Application.Current.MainPage.Navigation.PopAsync();
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error Message", "Somthing went Wrong", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error101", e.Message, "OK");
                 }
             }
-            catch (Exception e)
+            else
             {
-                await Application.Current.MainPage.DisplayAlert("Error101", e.Message, "OK");
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
             }
         }
         private async void ChangeAddress_Clicked(object obj)
@@ -160,22 +159,30 @@ namespace PyConsumerApp.ViewModels.Transaction
                 await Application.Current.MainPage.DisplayAlert("Fields Empty Error", "Please fill all the Mandatory fields", "Ok");
                 return;
             }
-            try
+
+            if (CrossConnectivity.Current.IsConnected)
             {
-                bool resonse = await CartDataService.Instance.SaveAddressInfo(CustomerAddress);
-                if (resonse == true)
+                try
                 {
-                    await Application.Current.MainPage.DisplayAlert("Message", "Address changed successfully", "Ok");
-                    await Application.Current.MainPage.Navigation.PopAsync();
+                    bool resonse = await CartDataService.Instance.SaveAddressInfo(CustomerAddress);
+                    if (resonse == true)
+                    {
+                        DependencyService.Get<IToastMessage>().LongTime("Address changed successfully");
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToastMessage>().LongTime("Error AD01: Unable to fetch Current location");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error Message", "Somthing went Wrong", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error102", e.Message, "OK");
                 }
             }
-            catch (Exception e)
+            else
             {
-                await Application.Current.MainPage.DisplayAlert("Error102", e.Message, "OK");
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
             }
         }
 

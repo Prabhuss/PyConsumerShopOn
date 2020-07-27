@@ -15,14 +15,6 @@ namespace PyConsumerApp.Views.Catalog
         public SubCategoryPage(ObservableCollection<SubCategory> category)
         {
             InitializeComponent();
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
             vm = new SubCategoryPageViewModel();
             vm.Categories = category;
             this.BindingContext = vm;

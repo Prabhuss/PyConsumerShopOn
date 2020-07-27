@@ -1,3 +1,5 @@
+using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.DataService;
 using PyConsumerApp.Models;
 using PyConsumerApp.Views.Bookmarks;
@@ -416,8 +418,10 @@ namespace PyConsumerApp.ViewModels.Catalog
         /// <param name="obj">The Object</param>
         private async void AddToCartClicked(object obj)
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
+                try
+                {
                     if (obj != null && obj is Product product && product != null)
                     {
                         var status = await CartDataService.Instance.AddCartItemAsync(product);
@@ -433,7 +437,7 @@ namespace PyConsumerApp.ViewModels.Catalog
                                 var response2 = await CartDataService.Instance.AddCartItemAsync(product);
                                 if (response2 != null && response.IsSuccess)
                                 {
-                                
+
                                     /*var result = await Application.Current.MainPage.DisplayAlert("Alert",
                                             "Quantity has been updated", "Go to Cart", " ");
                                      if (result) await Application.Current.MainPage.Navigation.PushAsync(new CartPage());
@@ -441,16 +445,17 @@ namespace PyConsumerApp.ViewModels.Catalog
                                 }
                             }
                             //UpdatePrice();
-                        
-                       /* var result = await Application.Current.MainPage.DisplayAlert("Alert",
-                                "This item has been already added in cart", "Go to Cart", " ");*/
-                           
+
+                            /* var result = await Application.Current.MainPage.DisplayAlert("Alert",
+                                     "This item has been already added in cart", "Go to Cart", " ");*/
+
                         }
                     }
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
+                catch (Exception ex)
+                {
+                    DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
+                }
             }
         }
 
@@ -492,54 +497,61 @@ namespace PyConsumerApp.ViewModels.Catalog
 
         public async void LoadMoreData()
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                //isBusy = false;
-                IsLoading = true;
-                int pageno = 0;
-                //To show ActivityIndicator if the items are loaded in the view. 
-                if (products.Count > 0)
+                try
                 {
-                    pageno = (products.Count / 5) + 1;
-                    //await Task.Delay(3000);
-                }
-                else
-                {
-                    pageno = 1;
-                }
-                //To ignore if items are being added till delayed time.
-                //if (isBusy)
-               /* if (!isBusy)
-                    return;
-                */
-                ObservableCollection<Product> productlist = await CategoryDataService.Instance.GetItems(category, pageno);
-                if (productlist.Count != 0)
-                {
-                    foreach (var item in productlist)
+                    //isBusy = false;
+                    IsLoading = true;
+                    int pageno = 0;
+                    //To show ActivityIndicator if the items are loaded in the view. 
+                    if (products.Count > 0)
                     {
-                        var isProductAlreadyAdded = products.Any(s => s.CitrineProdId == item.CitrineProdId);
-                        if (!isProductAlreadyAdded)
+                        pageno = (products.Count / 5) + 1;
+                        //await Task.Delay(3000);
+                    }
+                    else
+                    {
+                        pageno = 1;
+                    }
+                    //To ignore if items are being added till delayed time.
+                    //if (isBusy)
+                    /* if (!isBusy)
+                         return;
+                     */
+                    ObservableCollection<Product> productlist = await CategoryDataService.Instance.GetItems(category, pageno);
+                    if (productlist.Count != 0)
+                    {
+                        foreach (var item in productlist)
                         {
-                            if (item.Availability_Status.ToString().ToLower() == "no")
-                                item.AvailabilityStatusBool = false;
-                            else
-                                item.AvailabilityStatusBool = true;
-                            Products.Add(item);
+                            var isProductAlreadyAdded = products.Any(s => s.CitrineProdId == item.CitrineProdId);
+                            if (!isProductAlreadyAdded)
+                            {
+                                if (item.Availability_Status.ToString().ToLower() == "no")
+                                    item.AvailabilityStatusBool = false;
+                                else
+                                    item.AvailabilityStatusBool = true;
+                                Products.Add(item);
+                            }
                         }
                     }
+                    //isBusy = true;
+                    //isBusy = false;
                 }
-                //isBusy = true;
-                //isBusy = false;
-            }
-            catch(Exception e)
-            {
+                catch (Exception e)
+                {
 
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
             }
-            finally
+            else
             {
+                DependencyService.Get<IToastMessage>().LongTime("No Internet Connection");
                 IsLoading = false;
             }
-            
         }
         #endregion
     }

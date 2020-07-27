@@ -1,4 +1,5 @@
 ﻿using Plugin.Connectivity;
+using PyConsumerApp.Controls;
 using PyConsumerApp.Models.History;
 using System;
 using System.Collections.ObjectModel;
@@ -21,20 +22,14 @@ namespace PyConsumerApp.ViewModels.History
         public string totalMRP;
         public string discount;
         public string productImageUrl;
+        public string orderPaymentMode;
+        public string orderAddressType;
         public OrderSummaryViewModel(CustomerInvoiceDatum InvoiceDetails, ObservableCollection<InvocieLineItem> LineitemFromCloud)
         {
-
-            if (CrossConnectivity.Current.IsConnected)
-            {
-
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Check Your Internet Connectivity", "OK");
-            }
-            TotalAmount = InvoiceDetails.PayableAmount.ToString();
+            OrderPaymentMode = string.IsNullOrEmpty(InvoiceDetails.PaymentMode) ? "" : InvoiceDetails.PaymentMode;
+            TotalAmount =  string.IsNullOrEmpty(InvoiceDetails.PayableAmount) ? "" : InvoiceDetails.PayableAmount;
             TotalMRP = InvoiceDetails.TotalInvoiceAmount.ToString();
-            Discount = InvoiceDetails.DiscountAmount.ToString();
+            Discount = string.IsNullOrEmpty(InvoiceDetails.DiscountAmount) ? "" : InvoiceDetails.DiscountAmount;
             LineItemList = new ObservableCollection<InvocieLineItem>();
             InvoiceItems(InvoiceDetails.CustomerInvoiceId, LineitemFromCloud);
         }
@@ -75,6 +70,42 @@ namespace PyConsumerApp.ViewModels.History
                 }
 
                 this.productImageUrl = value;
+            }
+        }
+        [DataMember(Name = "OrderPaymentMode")]
+        public string OrderPaymentMode
+        {
+            get
+            {
+                return this.orderPaymentMode;
+            }
+
+            set
+            {
+                if (this.orderPaymentMode == value)
+                {
+                    return;
+                }
+
+                this.orderPaymentMode = value;
+            }
+        }
+        [DataMember(Name = "OrderPaymentMode")]
+        public string OrderAddressType
+        {
+            get
+            {
+                return this.orderAddressType;
+            }
+
+            set
+            {
+                if (this.orderAddressType == value)
+                {
+                    return;
+                }
+
+                this.orderAddressType = value;
             }
         }
         
@@ -147,7 +178,8 @@ namespace PyConsumerApp.ViewModels.History
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Exception raised while retrieving Product List " + e.Message);
+                DependencyService.Get<IToastMessage>().LongTime("Exception raised while retrieving Product List: " + e.Message);
+                System.Diagnostics.Debug.WriteLine("Exception raised while retrieving Product List: " + e.Message);
             }
         }
 
